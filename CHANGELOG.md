@@ -18,3 +18,7 @@ All notable changes to VolumeWar are documented here.
 - Added a restrictive static-site Content Security Policy and no-referrer policy.
 - Removed dynamic HTML updates from runtime status rendering.
 - Documented and ignored environment, key, signing, cache, coverage, build, and hosting state.
+
+### Documentation
+
+- Expanded the README with verified setup, architecture, accessibility, security, ownership, author, contact, and licensing details.

@@ -9,6 +9,7 @@ const readProjectFile = (fileName) => fs.readFileSync(path.join(projectRoot, fil
 const html = readProjectFile("index.html");
 const script = readProjectFile("script.js");
 const styles = readProjectFile("styles.css");
+const readme = readProjectFile("README.md");
 const packageJson = JSON.parse(readProjectFile("package.json"));
 
 test("audio requires explicit controls and has no autoplay surface", () => {
@@ -62,4 +63,14 @@ test("runtime code avoids dynamic HTML and string execution", () => {
 test("the release gate always produces the production artifact", () => {
   assert.equal(packageJson.scripts.build, "node scripts/build.js");
   assert.match(packageJson.scripts.check, /node scripts\/build\.js/);
+});
+
+test("the README preserves verified author and ownership details", () => {
+  assert.match(readme, /Sudarshan Chaudhari/);
+  assert.match(readme, /SudarshanTechLabs/);
+  assert.match(readme, /SUDARSHANCHAUDHARI/);
+  assert.match(readme, /sunny\.sudarshan@gmail\.com/);
+  assert.match(readme, /sudarshantechlabs@gmail\.com/);
+  assert.match(readme, /Bangkok, Thailand/);
+  assert.match(readme, /does not currently include an open-source license/);
 });
