@@ -5,7 +5,7 @@
 - Dependency-free static HTML, CSS, SVG, and classic JavaScript.
 - `game-state.js` owns game rules and must remain independently testable in Node.
 - `script.js` owns DOM rendering, keyboard/pointer input, and Web Audio lifecycle.
-- There is no build output to commit.
+- `scripts/build.js` validates and copies the deployable site into ignored `dist/` output.
 
 ## Invariants
 
@@ -22,5 +22,7 @@ Run the complete release gate before handoff:
 ```bash
 pnpm check
 ```
+
+Deploy only the generated `dist/` directory. Never commit it.
 
 For visible changes, also perform manual keyboard, responsive-layout, reduced-motion, and audio start/stop checks in current browsers. Do not commit secrets, `.env*`, hosting state, caches, coverage, or generated output.

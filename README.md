@@ -2,7 +2,7 @@
 
 VolumeWar is a standalone, dependency-free web audio game about a cartoon speaker that refuses to be turned down. Every lowering attempt triggers one randomly ordered act of sabotage. After ten attempts, the speaker surrenders and zero volume becomes available.
 
-The source repository is intentionally private while release validation is in progress.
+The source repository remains private until Sudarshan explicitly approves a public launch.
 
 ## Features
 
@@ -71,6 +71,8 @@ VolumeWar/
 ├── tests/
 │   ├── game-state.test.js   State and unlock tests using node:test
 │   └── project-contract.test.js
+├── scripts/
+│   └── build.js             Validated production artifact generator
 ├── package.json             Local serve and verification scripts
 ├── AGENTS.md                Project invariants and verification guide
 ├── CHANGELOG.md             User-facing release history
@@ -95,11 +97,17 @@ Or run only the tests:
 pnpm test
 ```
 
-The release gate checks JavaScript syntax, every sabotage path, the surrender rule, explicit audio startup, the gain cap, required accessibility hooks, reduced-motion coverage, the static Content Security Policy, and risky dynamic-execution APIs.
+The release gate checks JavaScript syntax, every sabotage path, the surrender rule, explicit audio startup, the gain cap, required accessibility hooks, reduced-motion coverage, the static Content Security Policy, risky dynamic-execution APIs, local production assets, and the artifact size budget. It then generates `dist/`.
 
 ## Static deployment
 
-VolumeWar needs no compilation or server-side runtime. Deploy the project root to a static host with `index.html` as the entry point and no build command.
+VolumeWar needs no compilation or server-side runtime. Generate the verified artifact with:
+
+```bash
+pnpm build
+```
+
+Deploy the generated `dist/` directory to a static host with `index.html` as the entry point. The build fails if HTML loads a remote runtime asset, references a missing local file, omits a required file from the artifact, or exceeds the 128 KiB uncompressed size budget.
 
 For production hosting, configure these response headers at the platform level in addition to the in-document policy:
 

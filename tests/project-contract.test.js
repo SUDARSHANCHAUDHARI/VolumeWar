@@ -9,6 +9,7 @@ const readProjectFile = (fileName) => fs.readFileSync(path.join(projectRoot, fil
 const html = readProjectFile("index.html");
 const script = readProjectFile("script.js");
 const styles = readProjectFile("styles.css");
+const packageJson = JSON.parse(readProjectFile("package.json"));
 
 test("audio requires explicit controls and has no autoplay surface", () => {
   assert.match(html, /id="startButton"/);
@@ -56,4 +57,9 @@ test("runtime code avoids dynamic HTML and string execution", () => {
   assert.doesNotMatch(script, /\beval\s*\(/);
   assert.doesNotMatch(script, /new Function\s*\(/);
   assert.doesNotMatch(script, /document\.write\s*\(/);
+});
+
+test("the release gate always produces the production artifact", () => {
+  assert.equal(packageJson.scripts.build, "node scripts/build.js");
+  assert.match(packageJson.scripts.check, /node scripts\/build\.js/);
 });

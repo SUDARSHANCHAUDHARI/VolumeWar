@@ -11,6 +11,7 @@ All notable changes to VolumeWar are documented here.
 - Explicit Web Audio start/stop controls and a gain-capped generated synth.
 - Pointer, touch, keyboard, reset, accessible status, and reduced-motion support.
 - Pure state tests and static production-contract checks.
+- Host-neutral production artifact generation with local-asset validation and a 128 KiB size budget.
 
 ### Security
 

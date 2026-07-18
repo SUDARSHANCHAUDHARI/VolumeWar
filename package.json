@@ -8,9 +8,10 @@
     "node": ">=18"
   },
   "scripts": {
+    "build": "node scripts/build.js",
     "serve": "python3 -m http.server 4173",
     "test": "node --test",
-    "check": "node --check game-state.js && node --check script.js && node --test"
+    "check": "node --check game-state.js && node --check script.js && node --check scripts/build.js && node --test && node scripts/build.js"
   },
   "keywords": [
     "web-audio",
