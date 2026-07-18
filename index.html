@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#a9d8e8">
+    <meta name="description" content="VolumeWar is an accessible audio game about a speaker that refuses to be turned down.">
+    <title>VolumeWar — Turn it down. I dare you.</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+    <script src="game-state.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#volume-control">Skip to volume controls</a>
+
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="VolumeWar home">
+        <span class="wordmark__dial" aria-hidden="true"></span>
+        Volume<span>War</span>
+      </a>
+      <p class="header-note">A tiny battle for a quieter room</p>
+    </header>
+
+    <main id="top" class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">An unreasonable audio experiment</p>
+          <h1 id="page-title">Turn it down.<br><em>I dare you.</em></h1>
+        </div>
+        <div class="intro__copy">
+          <p>A stubborn little speaker has one rule: louder is better. Survive ten attempts and it will finally surrender the zero.</p>
+          <p class="safety-note">
+            <span aria-hidden="true">●</span>
+            Sound is off until you start it, and generated audio is gain-capped.
+          </p>
+        </div>
+      </section>
+
+      <section class="battle-stage" id="volume-control" aria-labelledby="battle-title">
+        <h2 id="battle-title" class="visually-hidden">Volume battle controls</h2>
+
+        <div class="character-bay" id="characterBay">
+          <div class="taunt-wrap">
+            <p class="taunt" id="taunt">Press start when you’re ready. I was born ready.</p>
+          </div>
+
+          <svg class="speaker" viewBox="0 0 420 350" role="img" aria-labelledby="speakerTitle speakerDescription">
+            <title id="speakerTitle">A defiant cartoon speaker</title>
+            <desc id="speakerDescription">A coral speaker with a face, sneakers, and arms ready to grab the controls.</desc>
+
+            <path class="speaker__cord" d="M207 311 C198 333 232 326 253 337 C278 350 303 337 315 346"/>
+            <ellipse class="speaker__shadow" cx="211" cy="321" rx="126" ry="15"/>
+
+            <g class="speaker-arm speaker-arm--left">
+              <path d="M119 143 C72 131 64 159 83 178"/>
+              <path class="speaker__hand" d="M83 178 c-9 4-14 13-9 20 6 9 21 4 27-7 4-8-7-17-18-13Z"/>
+            </g>
+            <g class="speaker-arm speaker-arm--right">
+              <path d="M301 143 C348 128 363 153 346 176"/>
+              <path class="speaker__hand" d="M346 176 c9 2 16 10 13 19-4 10-20 8-28-2-6-7 4-17 15-17Z"/>
+            </g>
+
+            <g class="speaker__legs">
+              <path d="M157 291 145 318"/>
+              <path d="M260 291 274 318"/>
+              <path class="speaker__shoe" d="M145 315 c-22-2-34 6-35 15 18 7 38 5 49-5Z"/>
+              <path class="speaker__shoe" d="M273 315 c21-3 35 4 37 13-17 8-39 7-50-3Z"/>
+            </g>
+
+            <path class="speaker__side" d="M291 50 315 68v209l-24 24Z"/>
+            <rect class="speaker__body" x="119" y="42" width="178" height="258" rx="26"/>
+            <path class="speaker__shine" d="M143 67h77"/>
+
+            <circle class="speaker__woofer" cx="208" cy="214" r="61"/>
+            <circle class="speaker__woofer-ring" cx="208" cy="214" r="42"/>
+            <circle class="speaker__woofer-core" cx="208" cy="214" r="15"/>
+
+            <circle class="speaker__tweeter" cx="208" cy="93" r="25"/>
+            <circle class="speaker__eye" cx="199" cy="89" r="4"/>
+            <circle class="speaker__eye" cx="217" cy="89" r="4"/>
+            <path class="speaker__brow" d="m190 80 11-3m14 0 11 3"/>
+            <path class="speaker__mouth" d="M196 105 Q208 114 220 105"/>
+
+            <g class="speaker__bolts" aria-hidden="true">
+              <circle cx="139" cy="63" r="3"/>
+              <circle cx="277" cy="63" r="3"/>
+              <circle cx="139" cy="279" r="3"/>
+              <circle cx="277" cy="279" r="3"/>
+            </g>
+          </svg>
+
+          <div class="music-bars" id="musicBars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="control-deck" id="controlDeck">
+          <div class="deck-header">
+            <div>
+              <p class="utility-label">Live output</p>
+              <output class="volume-readout" id="volumeReadout" for="volumeSlider">72%</output>
+            </div>
+            <div class="sound-state" id="soundState">
+              <span aria-hidden="true"></span>
+              <span id="soundStateLabel">Sound off</span>
+            </div>
+          </div>
+
+          <div class="slider-group" id="primarySliderGroup">
+            <div class="slider-label-row">
+              <label for="volumeSlider">Main volume</label>
+              <span id="directionLabel">Direction: normal</span>
+            </div>
+            <div class="slider-shell">
+              <input id="volumeSlider" type="range" min="0" max="100" step="1" value="72" aria-describedby="sliderHelp">
+              <svg class="grab-hand" id="grabHand" viewBox="0 0 76 62" aria-hidden="true">
+                <path d="M17 34c-7-4-8-13-2-17 4-3 9 0 13 4-1-8 1-16 7-17 7-1 9 7 9 14 2-7 5-12 11-11 7 2 6 11 5 18 5-5 10-6 14-2 7 8-5 29-17 34-17 7-36-6-40-23Z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="second-slider" id="secondSliderWrap" hidden>
+            <div class="slider-label-row">
+              <label for="secondSlider">Suspicious backup volume</label>
+              <span>Definitely helpful</span>
+            </div>
+            <div class="slider-shell">
+              <input id="secondSlider" type="range" min="0" max="100" step="1" value="72" aria-describedby="sliderHelp">
+            </div>
+          </div>
+
+          <p class="slider-help" id="sliderHelp">Keyboard: arrow keys adjust by 1, Page Up/Down by 10, Home/End jump to the available limits.</p>
+
+          <div class="deck-actions">
+            <button class="button button--mute" id="muteButton" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Zm12.5-.5 4 7m0-7-4 7"/>
+              </svg>
+              <span>Mute</span>
+            </button>
+          </div>
+
+          <div class="attempt-card">
+            <div class="attempt-card__copy">
+              <span>Lowering attempts</span>
+              <strong id="attemptCount">0 / 10</strong>
+            </div>
+            <div class="attempt-meter" id="attemptMeter" role="progressbar" aria-label="Lowering attempts" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <p class="battle-status" id="battleStatus" role="status" aria-live="polite">No attempts yet. The speaker is watching.</p>
+        </div>
+      </section>
+
+      <section class="transport" aria-label="Sound and game controls">
+        <div class="transport__copy">
+          <p class="utility-label">Audio transport</p>
+          <p>Start the generated synth only when you want it. Stop silences and releases the audio context.</p>
+        </div>
+        <div class="transport__buttons">
+          <button class="button button--primary" id="startButton" type="button">
+            <span class="play-icon" aria-hidden="true"></span>
+            Start sound
+          </button>
+          <button class="button button--secondary" id="stopButton" type="button" disabled>
+            <span class="stop-icon" aria-hidden="true"></span>
+            Stop sound
+          </button>
+          <button class="button button--text" id="resetButton" type="button">Reset battle</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>VolumeWar · No samples, no autoplay, just one very stubborn oscillator.</p>
+    </footer>
+
+    <noscript>
+      <p class="noscript">VolumeWar needs JavaScript for its controls and generated sound.</p>
+    </noscript>
+  </body>
+</html>

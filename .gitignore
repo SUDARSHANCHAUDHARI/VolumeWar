@@ -1,0 +1,42 @@
+# Operating system and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dependencies, caches, coverage, and build output
+node_modules/
+dist/
+coverage/
+.nyc_output/
+.cache/
+.parcel-cache/
+.vite/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+*.local
+local.properties
+secure.properties
+
+# Hosting and deployment state
+.vercel/
+.netlify/
+
+# Keys and signing material
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
