@@ -74,3 +74,16 @@ test("the README preserves verified author and ownership details", () => {
   assert.match(readme, /Bangkok, Thailand/);
   assert.match(readme, /does not currently include an open-source license/);
 });
+
+test("uses the shared TinyChaos shell contract", () => {
+  for (const color of ["#15152a", "#fff5df", "#ff5d5d", "#4f7cff", "#ffd166", "#58d6a9", "#b695ff"]) {
+    assert.match(styles, new RegExp(color, "i"), `Missing shared TinyChaos color ${color}`);
+  }
+  assert.match(styles, /--display-font:\s*Impact/);
+  assert.match(styles, /--body-font:\s*"Arial Rounded MT Bold"/);
+  assert.match(styles, /body\s*\{[\s\S]*min-width:\s*0;[\s\S]*overflow-x:\s*clip;[\s\S]*overflow-y:\s*auto;/);
+  assert.match(styles, /html\s*\{[\s\S]*min-width:\s*0;/);
+  assert.match(styles, /button:focus-visible,[\s\S]*outline:\s*4px solid var\(--blue\)/);
+  assert.match(html, /href="https:\/\/sudarshanchaudhari\.github\.io\/TinyChaos\/"/);
+  assert.match(html, /VolumeWar · by Sudarshan Chaudhari/);
+});

@@ -1,18 +1,23 @@
 :root {
+  --ink: #15152a;
+  --paper: #fff5df;
+  --coral: #ff5d5d;
+  --blue: #4f7cff;
+  --butter: #ffd166;
+  --mint: #58d6a9;
+  --lilac: #b695ff;
   --room-blue: #a9d8e8;
-  --paper: #fff8df;
   --paper-deep: #f4e9c3;
-  --ink: #382640;
   --ink-soft: #6f5a75;
-  --coral: #f26b5e;
   --coral-dark: #d94e45;
-  --butter: #f6c453;
   --aqua: #55c6b5;
   --white: #fffdf6;
   --danger: #bf3647;
   --shadow: 8px 8px 0 var(--ink);
   --small-shadow: 4px 4px 0 var(--ink);
-  font-family: "Trebuchet MS", "Avenir Next", Avenir, sans-serif;
+  --display-font: Impact, Haettenschweiler, "Arial Narrow Bold", "Franklin Gothic Condensed", sans-serif;
+  --body-font: "Arial Rounded MT Bold", "Avenir Next Rounded", "Trebuchet MS", ui-rounded, system-ui, sans-serif;
+  font-family: var(--body-font);
   color: var(--ink);
   background: var(--room-blue);
   font-synthesis: none;
@@ -23,13 +28,16 @@
 }
 
 html {
+  min-width: 0;
   scroll-behavior: smooth;
 }
 
 body {
-  min-width: 320px;
+  min-width: 0;
   min-height: 100vh;
   margin: 0;
+  overflow-x: clip;
+  overflow-y: auto;
   background-color: var(--room-blue);
   background-image: radial-gradient(rgba(56, 38, 64, 0.13) 1.2px, transparent 1.2px);
   background-size: 22px 22px;
@@ -48,9 +56,9 @@ button {
 button:focus-visible,
 input:focus-visible,
 a:focus-visible {
-  outline: 4px solid var(--white);
+  outline: 4px solid var(--blue);
   outline-offset: 4px;
-  box-shadow: 0 0 0 7px var(--ink);
+  box-shadow: 0 0 0 4px var(--paper), 0 0 0 8px var(--ink);
 }
 
 [hidden] {
@@ -106,7 +114,7 @@ footer {
   align-items: center;
   gap: 0.55rem;
   color: var(--ink);
-  font-family: "Arial Black", Impact, sans-serif;
+  font-family: var(--display-font);
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   letter-spacing: -0.07em;
   line-height: 1;
@@ -168,7 +176,7 @@ footer {
 h1 {
   max-width: 12ch;
   margin: 0;
-  font-family: "Arial Black", Impact, sans-serif;
+  font-family: var(--display-font);
   font-size: clamp(3.5rem, 9vw, 7.8rem);
   letter-spacing: -0.075em;
   line-height: 0.82;
@@ -812,6 +820,18 @@ footer {
   font-size: 0.72rem;
   font-weight: 700;
   text-align: center;
+}
+
+.tinychaos-credit {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.tinychaos-credit a {
+  color: var(--ink);
+  font-weight: 900;
 }
 
 .noscript {
