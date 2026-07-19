@@ -12,6 +12,16 @@ const styles = readProjectFile("styles.css");
 const readme = readProjectFile("README.md");
 const packageJson = JSON.parse(readProjectFile("package.json"));
 
+function effectiveRootTokens(css) {
+  const tokens = {};
+  for (const match of css.matchAll(/:root\s*\{([\s\S]*?)\}/g)) {
+    for (const declaration of match[1].matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
+      tokens[declaration[1]] = declaration[2].trim();
+    }
+  }
+  return tokens;
+}
+
 test("audio requires explicit controls and has no autoplay surface", () => {
   assert.match(html, /id="startButton"/);
   assert.match(html, /id="stopButton"/);
@@ -76,8 +86,17 @@ test("the README preserves verified author and ownership details", () => {
 });
 
 test("uses the shared TinyChaos shell contract", () => {
-  for (const color of ["#15152a", "#fff5df", "#ff5d5d", "#4f7cff", "#ffd166", "#58d6a9", "#b695ff"]) {
-    assert.match(styles, new RegExp(color, "i"), `Missing shared TinyChaos color ${color}`);
+  const tokens = effectiveRootTokens(styles);
+  for (const [name, expected] of Object.entries({
+    "--ink": "#15152a",
+    "--paper": "#fff5df",
+    "--coral": "#ff5d5d",
+    "--blue": "#4f7cff",
+    "--butter": "#ffd166",
+    "--mint": "#58d6a9",
+    "--lilac": "#b695ff",
+  })) {
+    assert.equal(tokens[name]?.toLowerCase(), expected, `${name} must resolve to ${expected}`);
   }
   assert.match(styles, /--display-font:\s*Impact/);
   assert.match(styles, /--body-font:\s*"Arial Rounded MT Bold"/);
